@@ -1,13 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>App</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <form id="login-form">
+      <h1 id="login-title">Inicia sesión</h1>
+      <label for="user-email">Email</label>
+      <input type="email" name="email" id="user-email" /> <br />
+      <label for="user-password">Contraseña</label>
+      <input type="password" name="password" id="user-password" /><br>
+      <button type="submit" id="submit-button">Enviar</button>
+      <button type="reset" id="reset-button">Borrar</button>
+    </form><br>
+    <h2 id="title-registro">Aun no soy miembro</h2><button type="click" id="register-button">Registrarse</button>
+    <script type="module" src="/src/index.js"></script>
   </body>
 </html>
