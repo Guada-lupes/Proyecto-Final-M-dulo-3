@@ -40,7 +40,7 @@ function userLogin() {
       
       const token = await login(email, password);
       if (token) {
-        //window.location.href = "../public/welcome.html";
+        window.location.href = "../public/welcome.html";
         console.log("login correcto");
       } else {
         console.log("login fail");
