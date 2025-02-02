@@ -1,11 +1,12 @@
 const URL_API_BASE = "https://fakestoreapi.com";
 
-//Petición de todos los productos a la API
+/* ---------------------------------PETICIONES----------------------------------------------- */
+
+//Petición GET de todos los productos a la API
 async function getAllProducts() {
   const url = `${URL_API_BASE}/products`;
   try {
     const response = await fetch(url);
-    console.log(response.status);
     if (!response.ok) {
       throw new Error(`Fallo en la url`);
     }
@@ -18,8 +19,7 @@ async function getAllProducts() {
   }
 }
 
-//Petición de un producto a traves de su id
-
+//Petición GET de un producto a traves de su id
 async function getProductById(id) {
   const url = `${URL_API_BASE}/products/${id}`;
   try {
@@ -31,10 +31,57 @@ async function getProductById(id) {
     return result;
   } catch (error) {
     console.error("Algo ha ido mal", error);
+    return null
   }
 }
 
-//Renderizar las tarjetas con la infOrmación de los productos
+//Peticion DELETE para borrar producto
+async function deleteProduct() {
+  const id = this.parentElement.id;
+  const url = `${URL_API_BASE}/products/${id}`;
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error(`Fallo en la url: ${response.status}`);
+    }
+    const result = await response.json();
+    //Si la petición es exitosa, eliminamos el producto del DOM
+    document.getElementById(`${id}`).remove();
+    console.log(`${result.title} ha sido eliminado`);
+    alert(`El producto ${result.title} ha sido eliminado correctamente`);
+  } catch (error) {
+    console.error("Algo ha ido mal", error);
+  }
+}
+
+//Peticion PUT para modificar datos
+async function putChanges(data, id) {
+  const url = `${URL_API_BASE}/products/${id}`;
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Fallo en la url: ${response.status}`);
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Algo ha ido mal", error);
+    return null;
+  }
+}
+
+/* ------------------------------------------DOM------------------------------------------------- */
+
+//Renderizar las tarjetas con la información de los productos
 function productsCards(data) {
   const cardsContainer = document.getElementById("products-container");
 
@@ -54,60 +101,31 @@ function productsCards(data) {
     price.textContent = product.price;
     cardContainer.appendChild(price);
 
-    //boton modificar
+    //Botón para modificar las características del producto
     const modifyButton = document.createElement("button");
     modifyButton.setAttribute("type", "click");
     modifyButton.textContent = "Modificar";
     modifyButton.addEventListener("click", modifyProduct);
     cardContainer.appendChild(modifyButton);
-    //botón borrar
+    //Botón para eliminar el producto
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "click");
     deleteButton.addEventListener("click", deleteProduct);
     deleteButton.textContent = "Eliminar";
-
     cardContainer.appendChild(deleteButton);
 
     cardsContainer.appendChild(cardContainer);
   });
 }
 
-//borrar producto
-
-function deleteProduct() {
-  console.log("hola");
-  const productIdToRemove = this.parentElement.id;
-  document.getElementById(`${productIdToRemove}`).remove();
-  console.log(`${productIdToRemove} ha sido eliminado`);
-}
-
-//modificar producto
-
-function modifyProduct() {
-  const productIdToModify = Number(this.parentElement.id);
-
-  const getProduct = async (id) => {
-    const product = await getProductById(id);
-    console.log(product);
-    modifyProductForm(product);
-  };
-  getProduct(productIdToModify);
-
-  //Creamos una tarjeta con los datos de la tarjeta a modificar
-
+  //Formulario para modificar las características del producto
   function modifyProductForm(product) {
     console.log("hola");
-
+//Recuperamos el cardContainer del producto con su id y creamos un formulario dentro
     const cardContainer = document.getElementById(product.id);
     const form = document.createElement("form");
     form.setAttribute("data-id", product.id);
     cardContainer.appendChild(form);
-
-    const id = document.createElement("input");
-    id.setAttribute("type", "text");
-    id.setAttribute("placeholder", "id");
-    id.name = "id";
-    form.appendChild(id);
 
     const title = document.createElement("input");
     title.setAttribute("type", "text");
@@ -144,11 +162,14 @@ function modifyProduct() {
     button.textContent = "Enviar";
     form.appendChild(button);
 
+    // Añadimos al form un evento que se activará al hacer click en enviar y ejecutará submitChanges
     form.addEventListener("submit", submitChanges);
   }
-}
 
-//Esta funcion va a guardar los valores de todos los input en un objeto
+
+/* ------------------------------MANEJADORES DE EVENTOS ------------------------------------------------*/
+
+//Esta funcion va a guardar los valores de todos los input en un objeto y enviarlos como parámetros a la petición PUT para modificar las caracterísiticas
 async function submitChanges(evento) {
   evento.preventDefault();
   const id = this.dataset.id;
@@ -159,56 +180,63 @@ async function submitChanges(evento) {
   const category = evento.target.category.value;
   const image = evento.target.image.value;
 
-  const newData = { title, price, description, category, image };
+  const newData = {};
 
-const response = await putChanges(newData, id);
-  
-  if (response === 200) {
-    console.log("Los cambios se han realizado correctamente");
-  }else{
+  //Comprobamos qué inputs contiene valores, para no enviar elementos vacios
+  if (title) {
+    newData.title = title;
+  }
+  if (price) {
+    newData.price = price;
+  }
+  if (description) {
+    newData.description = description;
+  }
+  if (category) {
+    newData.category = category;
+  }
+  if (image) {
+    newData.image = image;
+  }
+//Objeto que se enviará
+  console.log(newData);
+
+  //Llamamos a la función que ejecuta la petición PUT
+  const response = await putChanges(newData, id);
+
+  if (response) {
+    console.log(
+      "Los cambios han sido solicitados correctamente"
+    );
+    alert(
+      `Se han producido los siguientes cambios:${JSON.stringify(
+        response
+      )}. Una vez verifiquemos estos cambios, serán efectivos en la plataforma.`
+    );
+//Eliminamos el formulario
+    evento.target.innerHTML= "";
+  } else {
     console.log("No se han podido realizar los cambios");
   }
-
 }
 
-//peticion put de modificar datos
-async function putChanges(data, id) {
-  const url = `${URL_API_BASE}/products/${id}`;
-  try {
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+//Esta función se activa con el evento del botón MODIFICAR, accderá al id del producto y hará una petición a la API de todas sus características para ejecutar la función modifyProductForm que desplegará un formulario con los inputs para modificar el producto.
+function modifyProduct() {
+  const productIdToModify = Number(this.parentElement.id);
 
-    console.log(response);
-    
-    if (!response.ok) {
-      throw new Error(`Fallo en la url: ${response.status}`);
-    }
-    const result = await response.json();
-
-    console.log(result);
-    
-    console.log(`Esta es la respuesta${response}`);
-    console.log(`Esta es el resultado: ${result}`);
-    console.log(`Este es el estatus: ${response.status}`);
-
-    return response.status;
-  } catch (error) {
-    console.error("Algo ha ido mal", error);
-    return null
-  }
-}
+  const getProduct = async (id) => {
+    const product = await getProductById(id);
+    console.log(product);
+    modifyProductForm(product);
+  };
+  getProduct(productIdToModify);}
 
 //Cargar todos los productos con la carga de la pagina
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("El DOM ha cargado correctamente");
   getAllProducts();
 });
 
+//Botón para volver a la pantalla de inicio
 document.getElementById("log-out-button").addEventListener("click", () => {
   window.location.href = "../index.html";
 });

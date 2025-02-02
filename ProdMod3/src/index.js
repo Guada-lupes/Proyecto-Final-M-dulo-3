@@ -1,5 +1,6 @@
 const URL_API_BASE = "https://reqres.in";
 
+//Petición POST para hacer login
 async function login(email, password) {
   const url = `${URL_API_BASE}/api/login`;
 
@@ -22,14 +23,11 @@ async function login(email, password) {
     return result.token;
   } catch (error) {
     console.error("Algo ha ido mal", error);
+    return null
   }
 }
 
-// {
-//   "email": "eve.holt@reqres.in",
-//   "password": "cityslicka"
-// }
-
+//Función para guardar los inputs y pasarlos como parámetros a la función login
 function userLogin() {
   document
     .getElementById("login-form")
@@ -37,18 +35,38 @@ function userLogin() {
       evento.preventDefault();
       const email = evento.target.email.value;
       const password = evento.target.password.value;
+
+      //Validación para el email, comprobamos a través de una expresión regular que el email tiene punto, letras despues del punto y el arroba
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        alert("Por favor, introduce un email válido.");
+        return;
+      }
+
+      //Validación para la contraseña. Sólo puedo poner contraseñas que contemple la API, por eso esta será la única comprobación.
+      if(password.length < 4){alert("La contraseña debe tener al menos 4 caracteres");
+      return;}  
       
       const token = await login(email, password);
       if (token) {
+
         window.location.href = "../public/welcome.html";
-        console.log("login correcto");
+        console.log("Login correcto");
       } else {
-        console.log("login fail");
+        console.log("Login fallido");
+        alert("El usuario no existe");
+        evento.target.reset()
       }
     });
 }
+
+//Este boton para Registrarse nos redirigirá a la web de registro
 document.getElementById("register-button").addEventListener("click", () => {
   window.location.href = "../public/register.html";
 });
 
-userLogin();
+
+//Con la carga de la página  ejecutamos login
+document.addEventListener("DOMContentLoaded", () => {
+  userLogin();
+});
+
