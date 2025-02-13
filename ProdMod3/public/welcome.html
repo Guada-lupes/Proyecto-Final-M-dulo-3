@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/style.css">
     <title>Bienvenido</title>
 </head>
 <body>
-    <h1>Bienvenida</h1>
-    <h3>Productos disponibles</h3>
-    <button type="click" id="log-out-button">Salir</button>
+    <header>
+        <div class="log-out-container">
+            <p>Cerrar sesión</p>
+            <button type="click" id="log-out-button">Salir</button>
+        </div>
+    </header>
+    <div class="main-container">
+        <h1 class="title">Bienvenida</h1>
+        <div class="all-products-container">
+            <h3 class="title-products">Productos disponibles</h3>
+            <div class="all-cards-container">
+                <div id="products-container">
+                </div>
+            </div>
 
-    <div id="products-container">
-        
+        </div>
+
     </div>
+    
     <script src="/src/welcome.js"></script>
 </body>
 </html>

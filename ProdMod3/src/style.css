@@ -1,0 +1,92 @@
+@import "resets";
+
+#login-form, #register-form{
+    margin: 10px;
+}
+#login-title, .title-registro{
+    text-align: center;
+    margin-bottom: 30px;
+}
+#login-form-container, #register-form-container{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+#login-buttons-container{
+    padding: 10px;
+    button{
+        padding: 10px;
+        margin-right: 5px;
+    }
+}
+.register-button-container{
+    margin: 10px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    button{
+        padding: 10px;
+        max-width: 200px;
+        align-self: center;
+    }
+}
+/*Diseño de la página welcome*/
+.main-container{
+    margin: 10px;
+}
+.log-out-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    gap: 10px;
+    margin: 20px;
+    font-size: 10px;
+    button{
+        width: 60px;
+    }
+}
+.title{
+    margin: 10px;
+}
+.title-products{
+    color: aquamarine;
+}
+.all-products-container{
+    margin: 10px;
+}
+.card{
+    border: solid;
+    border-color: blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 10px;
+
+    img{
+        margin: 5px;
+    }
+    p{
+        font-size: 17px;
+        padding: 5px;
+    }
+    button{
+        font-size: 17px;
+        width: 100px;
+        padding: 10px;
+        margin: 10px;
+        
+    }
+    h3{
+        padding: 5px;
+        text-align: center;
+    }
+}
+
+@media (min-width : 480px) and (max-width : 768px)
+{
+    #login-form{
+        width: 400px;
+    }
+}

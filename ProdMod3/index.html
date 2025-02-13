@@ -3,19 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style.css">
     <title>App</title>
   </head>
   <body>
     <form id="login-form">
       <h1 id="login-title">Inicia sesión</h1>
-      <label for="user-email">Email</label>
-      <input type="email" name="email" id="user-email" required> <br>
-      <label for="user-password">Contraseña</label>
-      <input type="password" name="password" id="user-password" required><br>
-      <button type="submit" id="submit-button">Enviar</button>
-      <button type="reset" id="reset-button">Borrar</button>
-    </form><br>
-    <h2 id="title-registro">Aun no soy miembro</h2><button type="click" id="register-button">Registrarse</button>
+      <div id="login-form-container">
+        <label for="user-email">Email</label>
+        <input type="email" name="email" id="user-email" required> <br>
+        <label for="user-password">Contraseña</label>
+        <input type="password" name="password" id="user-password" required>
+      </div>
+      <div id="login-buttons-container">
+        <button type="submit" id="submit-button">Enviar</button>
+        <button type="reset" id="reset-button">Borrar</button>
+      </div>
+    </form>
+    <div class="register-button-container">
+      <h2 class="title-registro">Aun no soy miembro</h2><button type="click" id="register-button">Registrarse</button>
+    </div>
+
     <script type="module" src="/src/index.js"></script>
   </body>
 </html>

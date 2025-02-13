@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/style.css">
     <title>Registro</title>
 </head>
 <body>
-    <h1>Crea tu cuenta</h1>
     <form id="register-form">
-        <label for="register-email">Email</label>
-        <input type="email" id="register-email" name="email" required>
-        <label for="register-password" >Constraseña</label>
-        <input type="password" id="register-password" name="password" required>
-        <button type="submit" id="submit-button">Enviar</button>
+        <h1 class="title-registro">Crea tu cuenta</h1>
+        <div id="register-form-container">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" name="email" required><br/>
+            <label for="register-password" >Constraseña</label>
+            <input type="password" id="register-password" name="password" required>
+        </div>
+        <div class="register-button-container">
+            <button type="submit" id="submit-button">Enviar</button>
+        </div>
+
     </form>
     <script src="../src/register.js"></script>
 </body>

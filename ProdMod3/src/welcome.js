@@ -88,31 +88,36 @@ function productsCards(data) {
   data.forEach((product) => {
     const cardContainer = document.createElement("div");
     cardContainer.id = product.id;
+    cardContainer.className = "card";
 
     //Tarjetas con imagen, título y precio
     const img = document.createElement("img");
     img.setAttribute("src", product.image);
     img.setAttribute("width", "200px");
     cardContainer.appendChild(img);
-    const title = document.createElement("h1");
+    const title = document.createElement("h3");
     title.textContent = product.title;
     cardContainer.appendChild(title);
     const price = document.createElement("p");
-    price.textContent = product.price;
+    price.textContent = `${product.price} €`;
     cardContainer.appendChild(price);
 
     //Botón para modificar las características del producto
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className= "buttonsContainer";
+    cardContainer.appendChild(buttonsContainer);
+
     const modifyButton = document.createElement("button");
     modifyButton.setAttribute("type", "click");
     modifyButton.textContent = "Modificar";
     modifyButton.addEventListener("click", modifyProduct);
-    cardContainer.appendChild(modifyButton);
+    buttonsContainer.appendChild(modifyButton);
     //Botón para eliminar el producto
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "click");
     deleteButton.addEventListener("click", deleteProduct);
     deleteButton.textContent = "Eliminar";
-    cardContainer.appendChild(deleteButton);
+    buttonsContainer.appendChild(deleteButton);
 
     cardsContainer.appendChild(cardContainer);
   });
