@@ -30,14 +30,16 @@ async function getProductById(id) {
     const result = await response.json();
     return result;
   } catch (error) {
+    console.log(response.status);
+    
     console.error("Algo ha ido mal", error);
-    return null
+    return null;
   }
 }
 
 //Peticion DELETE para borrar producto
 async function deleteProduct() {
-  const id = this.parentElement.id;
+  const id = this.parentElement.className;
   const url = `${URL_API_BASE}/products/${id}`;
   try {
     const response = await fetch(url, {
@@ -91,20 +93,28 @@ function productsCards(data) {
     cardContainer.className = "card";
 
     //Tarjetas con imagen, título y precio
+    const imgContainer = document.createElement("div");
+    imgContainer.className= "imgContainer";
+    cardContainer.appendChild(imgContainer);
     const img = document.createElement("img");
     img.setAttribute("src", product.image);
-    img.setAttribute("width", "200px");
-    cardContainer.appendChild(img);
+    imgContainer.appendChild(img);
+
+    const textContainer = document.createElement("div");
+    textContainer.className = "textContainer";
+    cardContainer.appendChild(textContainer);
+
     const title = document.createElement("h3");
     title.textContent = product.title;
-    cardContainer.appendChild(title);
+    textContainer.appendChild(title);
     const price = document.createElement("p");
     price.textContent = `${product.price} €`;
-    cardContainer.appendChild(price);
+    textContainer.appendChild(price);
 
     //Botón para modificar las características del producto
     const buttonsContainer = document.createElement("div");
-    buttonsContainer.className= "buttonsContainer";
+    buttonsContainer.className = `${product.id}`;
+    buttonsContainer.id = "buttons-container"
     cardContainer.appendChild(buttonsContainer);
 
     const modifyButton = document.createElement("button");
@@ -123,54 +133,53 @@ function productsCards(data) {
   });
 }
 
-  //Formulario para modificar las características del producto
-  function modifyProductForm(product) {
-    console.log("hola");
-//Recuperamos el cardContainer del producto con su id y creamos un formulario dentro
-    const cardContainer = document.getElementById(product.id);
-    const form = document.createElement("form");
-    form.setAttribute("data-id", product.id);
-    cardContainer.appendChild(form);
+//Formulario para modificar las características del producto
+function modifyProductForm(product) {
+  console.log("hola");
+  //Recuperamos el cardContainer del producto con su id y creamos un formulario dentro
+  const cardContainer = document.getElementById(product.id);
+  const form = document.createElement("form");
+  form.setAttribute("data-id", product.id);
+  cardContainer.appendChild(form);
 
-    const title = document.createElement("input");
-    title.setAttribute("type", "text");
-    title.setAttribute("placeholder", "Título");
-    title.name = "title";
-    form.appendChild(title);
+  const title = document.createElement("input");
+  title.setAttribute("type", "text");
+  title.setAttribute("placeholder", "Título");
+  title.name = "title";
+  form.appendChild(title);
 
-    const price = document.createElement("input");
-    price.setAttribute("type", "text");
-    price.setAttribute("placeholder", "Precio");
-    price.name = "price";
-    form.appendChild(price);
+  const price = document.createElement("input");
+  price.setAttribute("type", "text");
+  price.setAttribute("placeholder", "Precio");
+  price.name = "price";
+  form.appendChild(price);
 
-    const description = document.createElement("input");
-    description.setAttribute("type", "text");
-    description.setAttribute("placeholder", "Descripción");
-    description.name = "description";
-    form.appendChild(description);
+  const description = document.createElement("input");
+  description.setAttribute("type", "text");
+  description.setAttribute("placeholder", "Descripción");
+  description.name = "description";
+  form.appendChild(description);
 
-    const category = document.createElement("input");
-    category.setAttribute("type", "text");
-    category.setAttribute("placeholder", "Categoría");
-    category.name = "category";
-    form.appendChild(category);
+  const category = document.createElement("input");
+  category.setAttribute("type", "text");
+  category.setAttribute("placeholder", "Categoría");
+  category.name = "category";
+  form.appendChild(category);
 
-    const image = document.createElement("input");
-    image.setAttribute("type", "text");
-    image.setAttribute("placeholder", `Url`);
-    image.name = "image";
-    form.appendChild(image);
+  const image = document.createElement("input");
+  image.setAttribute("type", "text");
+  image.setAttribute("placeholder", `Url`);
+  image.name = "image";
+  form.appendChild(image);
 
-    const button = document.createElement("button");
-    button.setAttribute("type", "click");
-    button.textContent = "Enviar";
-    form.appendChild(button);
+  const button = document.createElement("button");
+  button.setAttribute("type", "click");
+  button.textContent = "Enviar";
+  form.appendChild(button);
 
-    // Añadimos al form un evento que se activará al hacer click en enviar y ejecutará submitChanges
-    form.addEventListener("submit", submitChanges);
-  }
-
+  // Añadimos al form un evento que se activará al hacer click en enviar y ejecutará submitChanges
+  form.addEventListener("submit", submitChanges);
+}
 
 /* ------------------------------MANEJADORES DE EVENTOS ------------------------------------------------*/
 
@@ -203,23 +212,21 @@ async function submitChanges(evento) {
   if (image) {
     newData.image = image;
   }
-//Objeto que se enviará
+  //Objeto que se enviará
   console.log(newData);
 
   //Llamamos a la función que ejecuta la petición PUT
   const response = await putChanges(newData, id);
 
   if (response) {
-    console.log(
-      "Los cambios han sido solicitados correctamente"
-    );
+    console.log("Los cambios han sido solicitados correctamente");
     alert(
       `Se han producido los siguientes cambios:${JSON.stringify(
         response
       )}. Una vez verifiquemos estos cambios, serán efectivos en la plataforma.`
     );
-//Eliminamos el formulario
-    evento.target.innerHTML= "";
+    //Eliminamos el formulario
+    evento.target.innerHTML = "";
   } else {
     console.log("No se han podido realizar los cambios");
   }
@@ -227,14 +234,15 @@ async function submitChanges(evento) {
 
 //Esta función se activa con el evento del botón MODIFICAR, accderá al id del producto y hará una petición a la API de todas sus características para ejecutar la función modifyProductForm que desplegará un formulario con los inputs para modificar el producto.
 function modifyProduct() {
-  const productIdToModify = Number(this.parentElement.id);
+  const productIdToModify = Number(this.parentElement.className);
 
   const getProduct = async (id) => {
     const product = await getProductById(id);
     console.log(product);
     modifyProductForm(product);
   };
-  getProduct(productIdToModify);}
+  getProduct(productIdToModify);
+}
 
 //Cargar todos los productos con la carga de la pagina
 document.addEventListener("DOMContentLoaded", () => {
