@@ -1,3 +1,5 @@
+__Ejecutar el proyecto desde el archivo INDEX.HTML
+
 El ProdMod3 está estructurado de la siguiente forma:
 
 __Archivos HTML__
