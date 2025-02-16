@@ -1,28 +1,47 @@
 @import "resets";
 
+body{
+  background-color: #fde4ee;
+}
 #login-form,
 #register-form {
-  margin: 10px;
+  margin-top: 50px;
+  /* border: solid;
+  border-color: burlywood;
+  border-radius: 5px; */
 }
 #login-title,
 .title-registro {
   text-align: center;
   margin-bottom: 30px;
-}
-.title-registro{
   margin-top: 50px;
+  font-size: xx-large;
 }
 #login-form-container,
 #register-form-container {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  font-size: large;
+  input{
+    border-radius: 8px;
+    border-width: inherit;
+    height: 40px;
+  }
+  input:focus{
+    outline: solid #f8c6da;
+  }
 }
 #login-buttons-container {
   padding: 10px;
+  font-size: large;
   button {
     padding: 10px;
     margin-right: 5px;
+    border-radius: 8px;
+    border-width: inherit;
+    background-color: white;
+    height: 50px;
   }
 }
 .register-button-container {
@@ -31,10 +50,15 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  font-size: large;
   button {
     padding: 10px;
     max-width: 200px;
     align-self: center;
+    border-radius: 8px;
+    border-width: inherit;
+    background-color: white;
+    height: 50px;
   }
 }
 
@@ -56,28 +80,40 @@
   justify-content: right;
   gap: 10px;
   margin: 20px;
-  font-size: 10px;
+
   button {
-    width: 60px;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: inherit;
+    background-color: white;
+    font-size: small;
   }
 }
 .title {
   margin: auto;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   text-align: center;
+  padding: 10px;
+  background-color: antiquewhite;
+  border-radius: 8px;
 }
 .all-products-container {
   margin: 0px;
 }
 .card {
   border: solid;
-  border-color: blue;
+  border-color:antiquewhite;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   margin: 20px;
   padding: 10px;
+  background-color: white;
 
   .imgContainer {
     width: 200px;
@@ -98,10 +134,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: larger;
+    padding: 20px;
   }
   button {
     font-size: 17px;
-    padding: 5px;
+    padding: 10px;
+    border: solid;
+      border-radius: 8px;
+      border-color: antiquewhite;
+      background-color: white;
+      height: 50px;
   }
   h3 {
     padding: 5px;
@@ -113,12 +156,16 @@
     gap: 15px;
     margin: 10px;
   }
+
 }
 
-@media (min-width: 480px) /*and (max-width: 768px) */ {
+@media (min-width: 480px) {
   #section {
     width: 500px;
     margin: auto;
+  }
+  .log-out-container button{
+    font-size: large;
   }
   #products-container {
     margin: 0px;
@@ -132,58 +179,23 @@
   /* #section-welcomen {
 
   } */
+
   .log-out-container {
-    font-size: 15px;
-    margin: 30px;
 
     button {
-      width: 150px;
-      height: fit-content;
+    font-size: larger;
     }
   }
   .title {
-    margin: auto;
     margin-bottom: 50px;
     font-size: 25px;
+    padding: 20px;
+    margin-top: 0;
   }
   #products-container {
     display: grid;
-    /* grid-template-columns: repeat(3, 1fr); */
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     grid-template-rows: auto;
     gap: 10px;
-  }
-
-  /* Esto a modificar */
-  .card {
-    border: solid;
-    border-color: blue;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-    padding: 10px;
-    justify-content: space-between;
-    height: 500px;
-
-    img {
-      margin: 5px;
-      max-height: 200px;
-    }
-    button {
-      font-size: 17px;
-      width: 100px;
-      padding: 10px;
-      margin: 10px;
-    }
-    h3 {
-      padding: 5px;
-      text-align: center;
-    }
-    .textContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
   }
 }
